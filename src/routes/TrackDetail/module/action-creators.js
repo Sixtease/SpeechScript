@@ -104,8 +104,7 @@ export function download_edit_window() {
 
 export function init(stem, hash) {
   return (dispatch, get_state) => {
-    const state = get_state();
-    fetch_subs(stem, dispatch, state);
+    fetch_subs(stem, dispatch);
     if (hash) {
       apply_hash(hash, dispatch);
     }

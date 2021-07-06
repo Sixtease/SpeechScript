@@ -16,25 +16,21 @@ export function reflect_time_in_hash(time) {
   }
 }
 
-export function fetch_subs(stem, dispatch, state) {
-  state.global.init_data_promise.then(subversions => {
-    const v = subversions[stem];
-    const v_par = v ? '?v=' + v : '';
-    const url = API_BASE + '/static/subs/' + stem + '.sub.js' + v_par;
-    fetch_jsonp(url, {
-      timeout: 300000,
-      jsonpCallback: 'jsonp_subtitles',
-      jsonpCallbackFunction: 'jsonp_subtitles',
-    })
-      .then(res => res.json())
-      .then(sub_data => {
-        // calculate_word_positions(sub_data.data);
-        dispatch({
-          type: 'set_subs',
-          subs: sub_data.data,
-        });
+export function fetch_subs(stem, dispatch) {
+  const url = API_BASE + '/static/subs/' + stem + '.sub.js';
+  fetch_jsonp(url, {
+    timeout: 300000,
+    jsonpCallback: 'jsonp_subtitles',
+    jsonpCallbackFunction: 'jsonp_subtitles',
+  })
+    .then(res => res.json())
+    .then(sub_data => {
+      // calculate_word_positions(sub_data.data);
+      dispatch({
+        type: 'set_subs',
+        subs: sub_data.data,
       });
-  });
+    });
 }
 
 export const apply_hash = (hash, dispatch) => {
