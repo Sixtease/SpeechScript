@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { BrowserRouter, Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import CoreLayout from '../layouts/CoreLayout';
-import { commence_session_init } from './actions';
 
 let previous_location;
 const router_set_state = Router.prototype.setState;
@@ -34,10 +33,12 @@ Router.prototype.componentDidMount = function(...args) {
 };
 
 class AppContainer extends Component {
+  /* TODO prune
   constructor(props) {
     super(props);
     props.store.dispatch(commence_session_init());
   }
+  */
 
   static propTypes = {
     store: PropTypes.object.isRequired
