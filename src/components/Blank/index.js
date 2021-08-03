@@ -17,13 +17,15 @@ class Blank extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     const form_data = new FormData(this.form_el);
-    fetch('http://lindat.mff.cuni.cz/services/aligner/align', {
+    const occurrences = this.form_el.transcript.value.split(/\s+/);
+    fetch('http://lindat.mff.cuni.cz/services/aligner/submit_audio', {
       method: 'POST',
       body: form_data,
     })
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((result) => {
-        console.log('Success:', textgrid_to_subs(result, 0, 'stemsson', this.form_el.transcript.value.split(/\s+/)));
+        const subs = textgrid_to_subs(result.aligned, 0, result.session, occurrences)
+        console.log('Success:', subs);
       })
       .catch((error) => {
         console.error('Error:', error);
