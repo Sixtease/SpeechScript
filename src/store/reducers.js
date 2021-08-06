@@ -6,9 +6,11 @@ import search from '../routes/Search/module';
 import track_detail from '../routes/TrackDetail/module/reducer';
 import { reducer as track_dir } from '../components/TrackList/TrackDirCategory/module';
 import { reducer as track_list } from '../components/TrackList/module';
+import blank from '../components/Blank/reducer';
 
 export const rootReducer = combineReducers({
   about,
+  blank,
   form,
   global,
   search,

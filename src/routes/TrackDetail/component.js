@@ -29,12 +29,19 @@ export class TrackDetail extends React.Component {
         left: 0
       }
     };
-    props.init(this.get_stem(), props.location.hash);
+    if (!props.encoded_audio) {
+      props.history.replace('/');
+      return;
+    }
+    // props.init(this.get_stem(), props.location.hash);
   }
 
   render() {
     const me = this;
-    const { marked_word } = me.props;
+    const { marked_word, encoded_audio } = me.props;
+    if (!encoded_audio) {
+      return null;
+    }
     const subs_offset = me.state.subs_offset;
     const subs_props = {
       chunk_text_nodes,
@@ -91,11 +98,13 @@ export class TrackDetail extends React.Component {
       set_selection,
       playback_off,
       playback_on,
+      encoded_audio,
     } = me.props;
+    if (!encoded_audio) { return; }
     const stem = me.get_stem();
     window.scrollTo(0, 0);
     set_selection();
-    const audio_promise = load_audio(stem);
+    const audio_promise = load_audio(stem, encoded_audio);
     audio_promise.then(audio => {
       set_audio_metadata(audio);
       audio.ontimeupdate = sync_current_time;
@@ -176,7 +185,7 @@ TrackDetail.propTypes = {
   failed_word_rectangles: PropTypes.array,
   force_current_frame: PropTypes.func,
   frame_cnt: PropTypes.number,
-  init: PropTypes.func,
+  // init: PropTypes.func,
   is_playing: PropTypes.bool,
   marked_word: PropTypes.object,
   playback_off: PropTypes.func,
@@ -185,7 +194,9 @@ TrackDetail.propTypes = {
   sent_word_rectangles: PropTypes.array,
   subs_chunks: PropTypes.array,
   match: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  history: PropTypes.object,
+  encoded_audio: PropTypes.any,
 };
 
 export default TrackDetail;

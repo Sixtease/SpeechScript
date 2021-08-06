@@ -56,7 +56,7 @@ class MAudio {
     this.audio_sources = [];
   }
 
-  init(stem) {
+  init(stem, ea) {
     const previous_stem = this.stem;
     this.stem = stem;
     if (previous_stem) {
@@ -67,7 +67,7 @@ class MAudio {
     this.should_play = false;
     this.is_playing = false;
     this.timeupdate_interval = null;
-    this.audio_chunks = new Chunks(stem);
+    this.audio_chunks = new Chunks(stem, ea);
     this.audio_chunks.chunks_promise.then(() => {
       this.chunks_loaded = true;
       this.audio_chunks.ensure_ahead_window(this.time);
@@ -259,9 +259,9 @@ const audio = new MAudio();
 export default function get_audio() {
   return audio;
 }
-export function load_audio(new_stem) {
+export function load_audio(new_stem, encoded_audio) {
   if (new_stem && new_stem !== audio.stem) {
-    audio.init(new_stem);
+    audio.init(new_stem, encoded_audio);
     return audio.load();
   } else {
     return Promise.resolve(audio);

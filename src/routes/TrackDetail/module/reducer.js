@@ -167,6 +167,7 @@ export const initial_state = {
   sent_word_rectangles: [],
   failed_word_rectangles: [],
   waiting_for_subversions: false,
+  encoded_audio: null,
 };
 
 export default function reducer(state = initial_state, action) {

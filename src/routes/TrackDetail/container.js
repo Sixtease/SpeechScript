@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
   force_current_frame,
-  init,
+  // init,
   playback_off,
   playback_on,
   request_track_detail_init,
@@ -18,7 +18,7 @@ import './style.scss';
 
 const map_dispatch_to_props = {
   force_current_frame,
-  init,
+  // init,
   playback_off,
   playback_on,
   request_track_detail_init,
@@ -39,6 +39,7 @@ const map_state_to_props = state => ({
   sent_word_rectangles: state.track_detail.sent_word_rectangles,
   subs: state.track_detail.subs,
   subs_chunks: get_subs_chunks(state).chunks,
+  encoded_audio: state.blank.encoded_audio,
 });
 
 export default connect(

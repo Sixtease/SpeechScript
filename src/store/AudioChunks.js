@@ -1,14 +1,15 @@
-import fetch_jsonp from 'fetch-jsonp';
-import { AUDIO_BASE, SAMPLE_RATE } from '../constants';
-import { format } from './audio';
+import { /* AUDIO_BASE, */ SAMPLE_RATE } from '../constants';
+// import { format } from './audio';
 
 const AHEAD_SIZE = 60;
 
 let last_floor_index = 0;
 
 export default class AudioChunks {
-  constructor(stem) {
+  constructor(stem, ea) {
     this.stem = stem;
+    this.single_chunk_ea = ea;
+    this.single_chunk_length = 0;
     this.ensured_for_min = -1;
     this.ensured_for_max = -2;
     this.load();
@@ -16,26 +17,13 @@ export default class AudioChunks {
 
   load() {
     const me = this;
-    me.chunks_promise = new Promise((resolve, reject) => {
-      const url = AUDIO_BASE + 'split-meta/' + me.stem + '.jsonp';
-      fetch_jsonp(url, {
-        timeout: 300000,
-        jsonpCallback: 'jsonp_splits',
-        jsonpCallbackFunction: 'jsonp_splits'
-      })
-        .catch(reject)
-        .then(res => res.json())
-        .then(splits => {
-          if (
-            splits &&
-            splits[me.stem] &&
-            splits[me.stem].formats[format.suffix]
-          ) {
-            me.chunks = splits[me.stem].formats[format.suffix];
-            resolve(me.chunks);
-          }
-        });
-    });
+    me.chunks = [{
+      duration: me.single_chunk_length,
+      from: 0,
+      to: me.single_chunk_length,
+      ea: me.single_chunk_ea,
+    }];
+    me.chunks_promise = Promise.resolve(me.chunks);
   }
 
   get_floor_chunk(pos) {
@@ -97,6 +85,8 @@ export default class AudioChunks {
   }
 
   load_chunk_ea(chunk) {
+    return Promise.resolve(chunk.ea);
+    /*
     const me = this;
     chunk.url =
       AUDIO_BASE + ['splits', me.stem, format.suffix, chunk.basename].join('/');
@@ -114,6 +104,7 @@ export default class AudioChunks {
         .catch(reject);
     });
     return chunk.ea_promise;
+    */
   }
 
   get_ahead_window(pos, requested) {
