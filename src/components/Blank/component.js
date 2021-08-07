@@ -1,4 +1,5 @@
 import React from 'react';
+import { ALIGNER_URL, SAMPLE_RATE } from '../../constants';
 import { textgrid_to_subs } from '../../lib/AlignmentFormats';
 
 class Blank extends React.Component {
@@ -13,14 +14,14 @@ class Blank extends React.Component {
   }
   render() {
     const { can_submit, loading } = this.state;
+    if (loading) return <p style={{ margin: '2em', textAlign: 'center' }}>chvilinku...</p>;
     return (
       <form encType="multipart/form-data" onSubmit={(evt) => this.handleSubmit(evt)} ref={(el) => (this.form_el = el)}>
-        <textarea name="transcript" placeholder="přepis"></textarea>
+        <textarea required name="transcript" placeholder="přepis"></textarea>
         <br />
-        <input type="file" name="audio" onChange={(evt) => this.handleFileSelect(evt)} />
+        <input required type="file" name="audio" onChange={(evt) => this.handleFileSelect(evt)} />
         <br />
         <input type="submit" disabled={!can_submit} />
-        { loading && 'chvilinku...' }
       </form>
     );
   }
@@ -42,7 +43,7 @@ class Blank extends React.Component {
     this.setState({...this.state, loading: true});
     const form_data = new FormData(this.form_el);
     const occurrences = this.form_el.transcript.value.split(/\s+/);
-    fetch('http://lindat.mff.cuni.cz/services/aligner/align', {
+    fetch(ALIGNER_URL, {
       method: 'POST',
       body: form_data,
     })
@@ -60,8 +61,9 @@ class Blank extends React.Component {
       });
   }
   to_track_detail(subs) {
-    const { history, set_subs } = this.props;
+    const { history, set_audio_metadata, set_subs } = this.props;
     set_subs(subs.data);
+    set_audio_metadata({ frame_cnt: SAMPLE_RATE * subs.end });
     history.push(`/zaznam/${subs.filestem}`);
   }
 }

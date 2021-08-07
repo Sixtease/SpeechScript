@@ -1,5 +1,5 @@
 import to_wav from 'audiobuffer-to-wav';
-import audio, { audio_sample_rate } from '../../../store/audio';
+import audio/* , { audio_sample_rate } */ from '../../../store/audio';
 import { get_edit_window_timespan, get_selected_words } from './selectors';
 import { apply_hash, fetch_subs, frame_to_time, reflect_time_in_hash } from './util';
 
@@ -54,10 +54,11 @@ export function playback_off() {
   };
 }
 
-export function set_audio_metadata() {
+export function set_audio_metadata(metadata) {
   return {
     type: 'set_audio_metadata',
-    frame_cnt: (chunks => (chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0))(audio().audio_chunks.chunks),
+    // frame_cnt: (chunks => (chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0))(audio().audio_chunks.chunks),
+    ...metadata,
   };
 }
 

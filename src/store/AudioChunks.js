@@ -6,10 +6,10 @@ const AHEAD_SIZE = 60;
 let last_floor_index = 0;
 
 export default class AudioChunks {
-  constructor(stem, ea) {
+  constructor(stem, ea, duration) {
     this.stem = stem;
     this.single_chunk_ea = ea;
-    this.single_chunk_length = 0;
+    this.single_chunk_length = duration;
     this.ensured_for_min = -1;
     this.ensured_for_max = -2;
     this.load();
