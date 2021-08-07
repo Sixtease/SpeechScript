@@ -100,6 +100,7 @@ class MAudio {
     }
     if (start_in <= 0) {
       me.started_at = ac.currentTime;
+      console.log('starting', start_in, chunk);
       chunk.audio_source.start(0, -start_in, duration);
       me.is_playing = true;
       me.notify_playing();
