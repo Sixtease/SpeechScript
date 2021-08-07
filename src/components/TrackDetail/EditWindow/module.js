@@ -50,41 +50,12 @@ export function send_subs(form_values, dispatch, props) {
     }
     const occurrences = form_values.edited_subtitles.trim().split(/\s+/);
     const subs = textgrid_to_subs(textgrid_response.data, timespan.start, props.stem, occurrences);
+    subs.data.forEach(s => s.humanic = true);
 
-    const subsub_formdata = new FormData();
-    subsub_formdata.append('filestem', props.stem);
-    subsub_formdata.append('start', timespan.start);
-    subsub_formdata.append('end', timespan.end);
-    subsub_formdata.append('trans', form_values.edited_subtitles);
-    subsub_formdata.append('author', state.form.username.values.username);
-    subsub_formdata.append('session', localStorage.getItem('session'));
-    subsub_formdata.append('subs', JSON.stringify(subs));
-    let res;
-    try {
-      res = await axios
-        .request({
-          url: endpoint,
-          method: 'POST',
-          data: subsub_formdata,
-        });
-    } catch (e) {
-      dispatch({
-        type: 'submission_error',
-        words: selw,
-      });
-    }
-    if (res.data && res.data.success) {
-      dispatch({
-        type: 'accepted_submission',
-        replaced_words: selw,
-        accepted_words: res.data.data,
-      });
-    } else {
-      dispatch({
-        type: 'failed_submission',
-        words: selw,
-        subs_chunks,
-      });
-    }
+    dispatch({
+      type: 'accepted_submission',
+      replaced_words: selw,
+      accepted_words: subs.data,
+    });
   };
 }
