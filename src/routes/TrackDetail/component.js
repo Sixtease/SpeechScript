@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { SAMPLE_RATE } from '../../constants';
 import { load_audio, equalizer } from '../../store/audio';
 import './CanvasEqualizer.css';
 import {
@@ -93,20 +94,22 @@ export class TrackDetail extends React.Component {
   componentDidMount() {
     const me = this;
     const {
-      set_audio_metadata,
+      // set_audio_metadata,
       sync_current_time,
       set_selection,
       playback_off,
       playback_on,
       encoded_audio,
+      frame_cnt,
     } = me.props;
     if (!encoded_audio) { return; }
     const stem = me.get_stem();
     window.scrollTo(0, 0);
     set_selection();
-    const audio_promise = load_audio(stem, encoded_audio);
+    const audio_duration = frame_cnt / SAMPLE_RATE;
+    const audio_promise = load_audio(stem, encoded_audio, audio_duration);
     audio_promise.then(audio => {
-      set_audio_metadata(audio);
+      // set_audio_metadata(audio);
       audio.ontimeupdate = sync_current_time;
     });
     if (!window.KEY_PLAYBACK_CTRL) {
