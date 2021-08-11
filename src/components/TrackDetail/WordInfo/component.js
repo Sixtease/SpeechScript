@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import Phonet from '../../../lib/Phonet';
 
+function normalize(occurrence) {
+  return occurrence.replaceAll(/\P{L}+/gu, '').toLowerCase();
+}
+
 class WordInfo extends React.Component {
   render() {
     const me = this;
@@ -10,17 +14,19 @@ class WordInfo extends React.Component {
     if (word === null) {
       return null;
     }
-    const submit = key => (evt, new_value) => {
-      if (new_value === word[key]) {
+    const submit = (evt, new_value) => {
+      if (new_value === word.occurrence) {
         return;
       }
       const nv = {
         occurrence: word.occurrence,
         timestamp: word.timestamp,
         fonet: word.fonet,
+        humanic: 1,
         stem
       };
-      nv[key] = new_value;
+      nv.occurrence = new_value;
+      nv.wordform = normalize(new_value);
       save_word(nv);
     };
     return (
@@ -36,7 +42,7 @@ class WordInfo extends React.Component {
               component="input"
               type="text"
               name="occurrence"
-              onBlur={submit('occurrence')}
+              onBlur={submit}
             />
           </dd>
 

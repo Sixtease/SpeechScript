@@ -1,40 +1,8 @@
-import axios from 'axios';
-import { API_BASE } from '../../../constants';
-
-const endpoint = API_BASE + '/saveword/';
-
-export function save_word(form_values) {
+export function save_word(word) {
   return dispatch => {
     dispatch({
-      type: 'save_word',
-      ...form_values
+      type: 'accepted_save_word',
+      ...word
     });
-    axios
-      .request({
-        url: endpoint,
-        method: 'POST',
-        params: {
-          ...form_values
-        }
-      })
-      .then(res => {
-        if (res.data && res.data.success) {
-          dispatch({
-            type: 'accepted_save_word',
-            ...res.data
-          });
-        } else {
-          dispatch({
-            type: 'failed_save_word',
-            ...form_values
-          });
-        }
-      })
-      .catch(() => {
-        dispatch({
-          type: 'save_word_error',
-          ...form_values
-        });
-      });
   };
 }
