@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, withRouter } from 'react-router-dom';
-import Header from '../../components/Header';
 import { HomeView } from '../../routes/Home/';
 import { TrackDetail } from '../../routes/TrackDetail';
 import { Search } from '../../routes/Search';
@@ -12,7 +11,6 @@ import '../../styles/core.scss';
 export function CoreLayout(props) {
   return (
     <div className="container-fluid">
-      <Header location={props.location} />
       <div className="row">
         <div className="col-xs-12">
           <div className="core-layout__viewport">
