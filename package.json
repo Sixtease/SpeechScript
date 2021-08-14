@@ -2,6 +2,7 @@
   "name": "makon-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://lindat.mff.cuni.cz/services/aligner/fat/",
   "dependencies": {
     "audio-buffer-utils": "^5.1.2",
     "audiobuffer-to-wav": "^1.0.0",

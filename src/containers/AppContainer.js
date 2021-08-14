@@ -53,7 +53,7 @@ class AppContainer extends Component {
 
     return (
       <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename="/services/aligner/fat">
           <div style={{ height: '100%' }}>
             <CoreLayout />
           </div>
