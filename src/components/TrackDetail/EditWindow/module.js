@@ -1,6 +1,6 @@
 import axios from 'axios';
 import to_wav from 'audiobuffer-to-wav';
-import { API_BASE, ALIGNER_URL } from '../../../constants';
+import { ALIGNER_URL } from '../../../constants';
 import audio from '../../../store/audio';
 import { textgrid_to_subs } from '../../../lib/AlignmentFormats';
 import {
@@ -8,8 +8,6 @@ import {
   get_selected_words,
   get_subs_chunks
 } from '../../../routes/TrackDetail/module/selectors';
-
-const endpoint = API_BASE + '/subsubmit/';
 
 export function send_subs(form_values, dispatch, props) {
   return async (dispatch, get_state) => {

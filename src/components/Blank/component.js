@@ -30,6 +30,12 @@ class Blank extends React.Component {
         </label>
         <br />
         <input type="submit" disabled={!can_submit} value="odeslat" />
+        <a
+          href="http://lindat.mff.cuni.cz/services/aligner/manual.html"
+          rel="noopener noreferrer"
+          target="_blank"
+          className="manual-link"
+        >nápověda</a>
       </form>
     );
   }

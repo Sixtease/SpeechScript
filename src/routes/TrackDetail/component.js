@@ -78,6 +78,11 @@ export class TrackDetail extends React.Component {
                     ref={el => (me.equalizer_el = el)}
                   />
                 </div>
+                <a
+                  target="_blank"
+                  href="http://lindat.mff.cuni.cz/services/aligner/manual.html"
+                  rel="noopener noreferrer"
+                >nápověda</a>
               </div>
             </div>
           </div>
