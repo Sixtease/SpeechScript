@@ -16,12 +16,20 @@ class Blank extends React.Component {
     const { can_submit, loading } = this.state;
     if (loading) return <p style={{ margin: '2em', textAlign: 'center' }}>chvilinku...</p>;
     return (
-      <form encType="multipart/form-data" onSubmit={(evt) => this.handleSubmit(evt)} ref={(el) => (this.form_el = el)}>
+      <form
+        encType="multipart/form-data"
+        className="custom-recording-form"
+        onSubmit={(evt) => this.handleSubmit(evt)}
+        ref={(el) => (this.form_el = el)}
+      >
         <textarea required name="transcript" placeholder="přepis"></textarea>
         <br />
-        <input required type="file" name="audio" onChange={(evt) => this.handleFileSelect(evt)} />
+        <label>
+          nahrávka
+          <input required type="file" name="audio" onChange={(evt) => this.handleFileSelect(evt)} />
+        </label>
         <br />
-        <input type="submit" disabled={!can_submit} />
+        <input type="submit" disabled={!can_submit} value="odeslat" />
       </form>
     );
   }
